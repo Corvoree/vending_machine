@@ -28,15 +28,24 @@ public class AppRunner {
         currentBalance=0;
 
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Выберите способ оплаты (1 - Монеты, 2 - Купюры):");
-        int choice = scanner.nextInt();
-        switch (choice) {
-            case 1 -> paymentMethod = new CoinAcceptor();
-            case 2 -> paymentMethod = new BillAcceptor();
-            default -> {
-                System.out.println("Неверный выбор. Используется монетоприемник по умолчанию.");
-                paymentMethod = new CoinAcceptor();
+        int choice;
+
+        do {
+            System.out.println("Выберите способ оплаты (1 - Монеты, 2 - Купюры):");
+            while (!scanner.hasNextInt()) {
+                System.out.println("Неверный ввод. Пожалуйста, введите 1 или 2.");
+                scanner.next(); // Очищаем некорректный ввод
             }
+            choice = scanner.nextInt();
+        } while (choice != 1 && choice != 2);
+
+        switch (choice) {
+            case 1:
+                paymentMethod = new CoinAcceptor();
+                break;
+            case 2:
+                paymentMethod = new BillAcceptor();
+                break;
         }
 
     }
@@ -75,11 +84,11 @@ public class AppRunner {
             showActions(products);
         }
         print(" h - Выйти");
-
         while (true) {
-            String action = fromConsole().substring(0, 1);
-
-            if ("a".equalsIgnoreCase(action)) {
+            String action = fromConsole().trim();
+            if (action.isEmpty()) {
+                print("Ввод не может быть пустым. Пожалуйста, введите букву действия.");
+            } else if ("a".equalsIgnoreCase(action)) {
                 int addedAmount = paymentMethod.addFunds(new Scanner(System.in));
                 currentBalance += addedAmount;
                 System.out.println("Вы пополнили баланс на " + addedAmount);
@@ -88,7 +97,6 @@ public class AppRunner {
                 isExit = true;
                 return;
             } else {
-                try {
                     for (int i = 0; i < products.size(); i++) {
                         if (products.get(i).getActionLetter().equals(ActionLetter.valueOf(action.toUpperCase()))) {
                             currentBalance -= products.get(i).getPrice();
@@ -96,9 +104,7 @@ public class AppRunner {
                             return;
                         }
                     }
-                } catch (IllegalArgumentException e) {
-                    print("Недопустимая буква. Попробуйте еще раз.");
-                }
+                    print("Недопустимая буква. Доступные опции: a, h, или буквы продуктов.");
             }
         }
     }
