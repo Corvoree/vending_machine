@@ -8,6 +8,10 @@ public class BillAcceptor implements PaymentMethod {
         System.out.print("Введите сумму купюры (50 или 100): ");
         if (scanner.hasNextInt()) {
             int amount = scanner.nextInt();
+            if (amount <= 0) {
+                System.out.println("Сумма должна быть положительной. Пожалуйста, введите 50 или 100.");
+                return 0;
+            }
             if (amount != 50 && amount != 100) {
                 System.out.println("Неверная сумма купюры. Пожалуйста, введите 50 или 100.");
                 return 0;

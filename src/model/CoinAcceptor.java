@@ -8,6 +8,10 @@ public class CoinAcceptor implements PaymentMethod {
         System.out.print("Введите сумму монет (кратную 10): ");
         if (scanner.hasNextInt()) {
             int amount = scanner.nextInt();
+            if (amount <= 0) {
+                System.out.println("Сумма должна быть положительной. Пожалуйста, введите число больше 0.");
+                return 0;
+            }
             if (amount % 10 != 0) {
                 System.out.println("Неверная сумма монет. Пожалуйста, введите сумму, кратную 10.");
                 return 0;
