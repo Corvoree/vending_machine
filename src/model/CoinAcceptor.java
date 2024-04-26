@@ -1,17 +1,16 @@
 package model;
 
-public class CoinAcceptor {
-    private int amount;
+import java.util.Scanner;
 
-    public CoinAcceptor(int amount) {
-        this.amount = amount;
-    }
-
-    public int getAmount() {
+public class CoinAcceptor implements PaymentMethod {
+    @Override
+    public int addFunds(Scanner scanner) {
+        System.out.print("Введите сумму монет (кратную 10): ");
+        int amount = scanner.nextInt();
+        if (amount % 10 != 0) {
+            System.out.println("Неверная сумма монет. Пожалуйста, введите сумму, кратную 10.");
+            return 0;
+        }
         return amount;
-    }
-
-    public void setAmount(int amount) {
-        this.amount = amount;
     }
 }
