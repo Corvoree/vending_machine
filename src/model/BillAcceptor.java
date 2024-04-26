@@ -2,18 +2,18 @@ package model;
 
 import java.util.Scanner;
 
-public class CoinAcceptor implements PaymentMethod {
+public class BillAcceptor implements PaymentMethod {
     @Override
     public int addFunds(Scanner scanner) {
-        System.out.print("Введите сумму монет (кратную 10): ");
+        System.out.print("Введите сумму купюры (50 или 100): ");
         if (scanner.hasNextInt()) {
             int amount = scanner.nextInt();
             if (amount <= 0) {
-                System.out.println("Сумма должна быть положительной. Пожалуйста, введите число больше 0.");
+                System.out.println("Сумма должна быть положительной. Пожалуйста, введите 50 или 100.");
                 return 0;
             }
-            if (amount % 10 != 0) {
-                System.out.println("Неверная сумма монет. Пожалуйста, введите сумму, кратную 10.");
+            if (amount != 50 && amount != 100) {
+                System.out.println("Неверная сумма купюры. Пожалуйста, введите 50 или 100.");
                 return 0;
             }
             return amount;
